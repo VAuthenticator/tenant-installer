@@ -55,7 +55,7 @@ def store_client_applications(client_application_table_name):
         "authorized_grant_types": set("client_credentials"),
         "web_server_redirect_uri": "",
         "authorities": [],
-        "access_token_validity": 3600,
+        "access_token_validity": 180,
         "refresh_token_validity": 3600,
         "auto_approve": True,
         "post_logout_redirect_uris": "",
