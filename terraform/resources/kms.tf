@@ -13,8 +13,8 @@ module "kms" {
   # Policy
   enable_default_policy = true
   key_administrators    = var.key_administrator_account_ids
-  key_users             = setunion([aws_iam_user.vauthenticator.id], var.key_user_account_ids)
+  key_users             = var.key_user_account_ids
 
 
-  tags = merge(map("Name" , var.key_name), var.common_resource_tags)
+  tags = merge(map("Name", var.key_name), var.common_resource_tags)
 }

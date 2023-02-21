@@ -58,7 +58,7 @@ resource "aws_dynamodb_table" "account_role_table" {
 }
 
 resource "aws_dynamodb_table" "ticket_table" {
-  name         = var.mail_verification_ticket_table_name
+  name         = var.ticket_table_name
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "ticket"
 
@@ -75,10 +75,10 @@ resource "aws_dynamodb_table" "ticket_table" {
     attribute_name = "ttl"
   }
 
-  tags = merge(map("Name" , var.mail_verification_ticket_table_name), var.common_resource_tags)
+  tags = merge(map("Name" , var.ticket_table_name), var.common_resource_tags)
 }
 
-resource "aws_dynamodb_table" "mfa_account_methods" {
+resource "aws_dynamodb_table" "mfa_account_methods_table" {
   name         = var.mfa_account_methods_table_name
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "user_name"
@@ -96,7 +96,7 @@ resource "aws_dynamodb_table" "mfa_account_methods" {
   tags = merge(map("Name" , var.mfa_account_methods_table_name), var.common_resource_tags)
 }
 
-resource "aws_dynamodb_table" "mfa_keys" {
+resource "aws_dynamodb_table" "mfa_keys_table" {
   name         = var.mfa_keys_table_name
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "key_id"
@@ -109,7 +109,7 @@ resource "aws_dynamodb_table" "mfa_keys" {
   tags = merge(map("Name" , var.mfa_keys_table_name), var.common_resource_tags)
 }
 
-resource "aws_dynamodb_table" "signature_keys" {
+resource "aws_dynamodb_table" "signature_keys_table" {
   name         = var.signature_keys_table_name
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "key_id"

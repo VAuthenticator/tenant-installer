@@ -27,7 +27,7 @@ variable "account_role_table_name" {
 variable "keys_table_name" {
   type = string
 }
-variable "mail_verification_ticket_table_name" {
+variable "ticket_table_name" {
   type = string
 }
 variable "mfa_keys_table_name" {
