@@ -15,18 +15,7 @@ resource "aws_iam_policy" "dynamo_policy" {
   name = "dynamodb_${var.username}_policy"
   path = var.path
 
-  policy = jsonencode({
-    Version   = "2012-10-17"
-    Statement = [
-      {
-        Action = [
-          "ec2:Describe*",
-        ]
-        Effect   = "Allow"
-        Resource = "*"
-      },
-    ]
-  })
+  policy = data.aws_iam_policy_document.dynamo_policy.json
 }
 
 data "aws_iam_policy_document" "dynamo_policy" {
