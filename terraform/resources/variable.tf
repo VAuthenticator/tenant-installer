@@ -16,9 +16,7 @@ variable "role_table_name" {
 variable "account_role_table_name" {
   type = string
 }
-variable "keys_table_name" {
-  type = string
-}
+
 variable "ticket_table_name" {
   type = string
 }
