@@ -66,10 +66,6 @@ resource "aws_dynamodb_table" "ticket_table" {
     name = "ticket"
     type = "S"
   }
-  attribute {
-    name = "ttl"
-    type = "N"
-  }
 
   ttl {
     attribute_name = "ttl"
