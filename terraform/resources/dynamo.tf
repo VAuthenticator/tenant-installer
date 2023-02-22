@@ -9,7 +9,7 @@ resource "aws_dynamodb_table" "client_application_table" {
     type = "S"
   }
 
-  tags = merge(map("Name" , var.client_application_table_name), var.common_resource_tags)
+  tags = merge(tomap({ "Name" = var.client_application_table_name }), var.common_resource_tags)
 }
 
 resource "aws_dynamodb_table" "account_table" {
@@ -22,7 +22,7 @@ resource "aws_dynamodb_table" "account_table" {
     type = "S"
   }
 
-  tags = merge(map("Name" , var.account_table_name), var.common_resource_tags)
+  tags = merge(tomap({ "Name" = var.account_table_name }), var.common_resource_tags)
 }
 
 resource "aws_dynamodb_table" "role_table" {
@@ -35,7 +35,7 @@ resource "aws_dynamodb_table" "role_table" {
     type = "S"
   }
 
-  tags = merge(map("Name" , var.role_table_name), var.common_resource_tags)
+  tags = merge(tomap({ "Name" = var.role_table_name }), var.common_resource_tags)
 }
 
 resource "aws_dynamodb_table" "account_role_table" {
@@ -54,7 +54,7 @@ resource "aws_dynamodb_table" "account_role_table" {
     type = "S"
   }
 
-  tags = merge(map("Name" , var.account_role_table_name), var.common_resource_tags)
+  tags = merge(tomap({ "Name" = var.account_role_table_name }), var.common_resource_tags)
 }
 
 resource "aws_dynamodb_table" "ticket_table" {
@@ -75,7 +75,7 @@ resource "aws_dynamodb_table" "ticket_table" {
     attribute_name = "ttl"
   }
 
-  tags = merge(map("Name" , var.ticket_table_name), var.common_resource_tags)
+  tags = merge(tomap({ "Name" = var.ticket_table_name }), var.common_resource_tags)
 }
 
 resource "aws_dynamodb_table" "mfa_account_methods_table" {
@@ -93,7 +93,7 @@ resource "aws_dynamodb_table" "mfa_account_methods_table" {
     type = "S"
   }
 
-  tags = merge(map("Name" , var.mfa_account_methods_table_name), var.common_resource_tags)
+  tags = merge(tomap({ "Name" = var.mfa_account_methods_table_name }), var.common_resource_tags)
 }
 
 resource "aws_dynamodb_table" "mfa_keys_table" {
@@ -106,7 +106,7 @@ resource "aws_dynamodb_table" "mfa_keys_table" {
     type = "S"
   }
 
-  tags = merge(map("Name" , var.mfa_keys_table_name), var.common_resource_tags)
+  tags = merge(tomap({ "Name" = var.mfa_keys_table_name }), var.common_resource_tags)
 }
 
 resource "aws_dynamodb_table" "signature_keys_table" {
@@ -119,5 +119,5 @@ resource "aws_dynamodb_table" "signature_keys_table" {
     type = "S"
   }
 
-  tags = merge(map("Name" , var.signature_keys_table_name), var.common_resource_tags)
+  tags = merge(tomap({ "Name" = var.signature_keys_table_name }), var.common_resource_tags)
 }

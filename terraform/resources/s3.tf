@@ -11,5 +11,5 @@ module "s3_bucket" {
 
   force_destroy = true
 
-  tags = merge(map("Name" , var.document_s3_bucket_name), var.common_resource_tags)
+  tags = merge(tomap({ "Name" = var.document_s3_bucket_name }), var.common_resource_tags)
 }

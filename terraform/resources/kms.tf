@@ -16,5 +16,5 @@ module "kms" {
   key_users             = var.key_user_account_ids
 
 
-  tags = merge(map("Name", var.key_name), var.common_resource_tags)
+  tags = merge(tomap({ "Name" = var.key_name }), var.common_resource_tags)
 }
