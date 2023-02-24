@@ -3,13 +3,31 @@ import uuid
 import sys
 import base64
 import bcrypt
+import os
 
-dynamodb = boto3.resource('dynamodb')
-kms_client = boto3.client("kms")
+def dynamodbClient():
+    dynamodb_endpoint = os.getenv('DYNAMO_DB_ENDPOINT')
+    if dynamodb_endpoint != None:
+        client= boto3.resource('dynamodb')
+    else:
+        client = boto3.resource('dynamodb', endpoint_url=dynamodb_endpoint)
+    return client
+def kmsClient():
+    kms_endpoint = os.getenv('KMS_ENDPOINT')
+    if kms_endpoint != None:
+        client= boto3.client("kms", endpoint_url=kms_endpoint)
+    else:
+        client = boto3.resource('kms', endpoint_url=kms_endpoint)
+    return client
+
+
+dynamodb = dynamodbClient()
+kms_client = kmsClient()
+
 
 def store_account(user_name, account_table_name, account_role_table_name):
     password = str(uuid.uuid4())
-    print(f'default user password: ${password}')
+    print(f'default user password: {password}')
 
     table = dynamodb.Table(account_table_name)
     table.put_item(Item={
@@ -37,10 +55,10 @@ def store_roles(role_table_name):
 
 def store_client_applications(client_application_table_name):
     client_id = str(uuid.uuid4())
-    print(f'client id: ${client_id}')
+    print(f'client id: {client_id}')
 
     client_secret = str(uuid.uuid4())
-    print(f'client secret: ${client_secret}')
+    print(f'client secret: {client_secret}')
 
     table = dynamodb.Table(client_application_table_name)
     table.put_item(Item={
@@ -61,6 +79,8 @@ def store_client_applications(client_application_table_name):
         "post_logout_redirect_uris": "",
         "logout_uris": "",
     })
+
+
 def store_key(key_table_name, master_key):
     table = dynamodb.Table(key_table_name)
     key_pair = kms_client.generate_data_key_pair(KeyId=master_key, KeyPairSpec='RSA_2048')
@@ -69,10 +89,11 @@ def store_key(key_table_name, master_key):
         "key_id": str(uuid.uuid4()),
         "encrypted_private_key": base64.b64encode(key_pair["PrivateKeyCiphertextBlob"]).decode(),
         "public_key": base64.b64encode(key_pair["PublicKey"]).decode(),
-        "key_purpose":"SIGNATURE",
-        "key_type":"ASYMMETRIC",
+        "key_purpose": "SIGNATURE",
+        "key_type": "ASYMMETRIC",
         "enabled": True
     })
+
 
 def pass_encoded(password):
     encode = str.encode(password)
