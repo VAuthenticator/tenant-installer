@@ -61,6 +61,7 @@ def store_client_applications(client_application_table_name):
 
     client_secret = str(uuid.uuid4())
     print(f'client secret: {client_secret}')
+    print(f'client_id={client_id}&client_secret={client_secret}')
 
     table = dynamodb.Table(client_application_table_name)
     table.put_item(Item={
@@ -89,13 +90,12 @@ def store_key(key_table_name, master_key):
     table.put_item(Item={
         "master_key_id": key_pair["KeyId"],
         "key_id": str(uuid.uuid4()),
-        "encrypted_private_key": base64.b64encode(key_pair["PrivateKeyCiphertextBlob"]).decode(),
-        "public_key": base64.b64encode(key_pair["PublicKey"]).decode(),
+        "encrypted_private_key": str(base64.b64encode(key_pair["PrivateKeyCiphertextBlob"])),
+        "public_key": str(base64.b64encode(key_pair["PublicKey"])),
         "key_purpose": "SIGNATURE",
         "key_type": "ASYMMETRIC",
         "enabled": True
     })
-
 
 def pass_encoded(password):
     encode = str.encode(password)
