@@ -21,6 +21,7 @@ def kmsClient():
     return client
 
 
+
 dynamodb = dynamodbClient()
 kms_client = kmsClient()
 
@@ -45,13 +46,11 @@ def store_account(user_name, account_table_name, account_role_table_name):
         "accountNonExpired": True
     })
     table = dynamodb.Table(account_role_table_name)
-    table.put_item(Item={"role_name": "ROLE_USER", "user_name": user_name})
     table.put_item(Item={"role_name": "VAUTHENTICATOR_ADMIN", "user_name": user_name})
 
 
 def store_roles(role_table_name):
     table = dynamodb.Table(role_table_name)
-    table.put_item(Item={"role_name": "ROLE_USER", "description": "Generic user role"})
     table.put_item(Item={"role_name": "VAUTHENTICATOR_ADMIN", "description": "VAuthenticator admin role"})
 
 
@@ -64,23 +63,22 @@ def store_client_applications(client_application_table_name):
 
     table = dynamodb.Table(client_application_table_name)
     table.put_item(Item={
-        "clientAppId":client_id,
-        "secret": pass_encoded(client_secret),
+        "client_id": client_id,
+        "client_secret": pass_encoded(client_secret),
         "scopes": [
             "openid", "profile", "email",
             "admin:signup", "admin:welcome", "admin:mail-verify", "admin:reset-password",
             "admin:key-reader", "admin:key-editor",
             "mfa:always"
         ],
-        "authorizedGrantTypes": ["CLIENT_CREDENTIALS"],
-        "webServerRedirectUri": "" ,
-        "authorities":  ["ROLE_USER"],
-        "accessTokenValidity": 180,
-        "refreshTokenValidity": 3600,
-        "additionalInformation": {},
-        "autoApprove": True,
-        "postLogoutRedirectUri": "",
-        "logoutUri": ""
+        "authorized_grant_types": ["CLIENT_CREDENTIALS"],
+        "web_server_redirect_uri": "",
+        "authorities": [],
+        "access_token_validity": 180,
+        "refresh_token_validity": 3600,
+        "auto_approve": True,
+        "post_logout_redirect_uris": "",
+        "logout_uris": "",
     })
 
 
