@@ -17,7 +17,7 @@ def kmsClient():
     if kms_endpoint is None:
         client= boto3.client("kms")
     else:
-        client = boto3.resource('kms', endpoint_url=kms_endpoint)
+        client = boto3.client('kms', endpoint_url=kms_endpoint)
     return client
 
 
@@ -71,7 +71,7 @@ def store_client_applications(client_application_table_name):
             "admin:key-reader", "admin:key-editor",
             "mfa:always"
         ],
-        "authorized_grant_types": set("client_credentials"),
+        "authorized_grant_types": ["CLIENT_CREDENTIALS"],
         "web_server_redirect_uri": "",
         "authorities": [],
         "access_token_validity": 180,
