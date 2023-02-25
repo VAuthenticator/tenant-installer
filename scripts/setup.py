@@ -75,9 +75,9 @@ def store_client_applications(client_application_table_name):
         "authorizedGrantTypes": ["CLIENT_CREDENTIALS"],
         "webServerRedirectUri": "" ,
         "authorities":  ["ROLE_USER"],
-        "accessTokenValidity": 180
-        "refreshTokenValidity": 3600
-        "additionalInformation": {}
+        "accessTokenValidity": 180,
+        "refreshTokenValidity": 3600,
+        "additionalInformation": {},
         "autoApprove": True,
         "postLogoutRedirectUri": "",
         "logoutUri": ""
