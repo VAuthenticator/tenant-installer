@@ -90,8 +90,8 @@ def store_key(key_table_name, master_key):
     table.put_item(Item={
         "master_key_id": key_pair["KeyId"],
         "key_id": str(uuid.uuid4()),
-        "encrypted_private_key": str(base64.b64encode(key_pair["PrivateKeyCiphertextBlob"])),
-        "public_key": str(base64.b64encode(key_pair["PublicKey"])),
+        "encrypted_private_key": base64.b64encode(key_pair["PrivateKeyCiphertextBlob"]).decode(),
+        "public_key": base64.b64encode(key_pair["PublicKey"]).decode(),
         "key_purpose": "SIGNATURE",
         "key_type": "ASYMMETRIC",
         "enabled": True
