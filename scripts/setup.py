@@ -64,22 +64,23 @@ def store_client_applications(client_application_table_name):
 
     table = dynamodb.Table(client_application_table_name)
     table.put_item(Item={
-        "client_id": client_id,
-        "client_secret": pass_encoded(client_secret),
+        "clientAppId":client_id,
+        "secret": pass_encoded(client_secret),
         "scopes": [
             "openid", "profile", "email",
             "admin:signup", "admin:welcome", "admin:mail-verify", "admin:reset-password",
             "admin:key-reader", "admin:key-editor",
             "mfa:always"
         ],
-        "authorized_grant_types": ["CLIENT_CREDENTIALS"],
-        "web_server_redirect_uri": "",
-        "authorities": ["ROLE_USER"],
-        "access_token_validity": 180,
-        "refresh_token_validity": 3600,
-        "auto_approve": True,
-        "post_logout_redirect_uris": "",
-        "logout_uris": "",
+        "authorizedGrantTypes": ["CLIENT_CREDENTIALS"],
+        "webServerRedirectUri": "" ,
+        "authorities":  ["ROLE_USER"],
+        "accessTokenValidity": 180
+        "refreshTokenValidity": 3600
+        "additionalInformation": {}
+        "autoApprove": True,
+        "postLogoutRedirectUri": "",
+        "logoutUri": ""
     })
 
 
