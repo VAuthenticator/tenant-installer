@@ -7,18 +7,19 @@ import os
 
 def dynamodbClient():
     dynamodb_endpoint = os.getenv('DYNAMO_DB_ENDPOINT')
-    if dynamodb_endpoint != None:
+    if dynamodb_endpoint is not None:
         client= boto3.resource('dynamodb')
     else:
         client = boto3.resource('dynamodb', endpoint_url=dynamodb_endpoint)
     return client
 def kmsClient():
     kms_endpoint = os.getenv('KMS_ENDPOINT')
-    if kms_endpoint != None:
-        client= boto3.client("kms", endpoint_url=kms_endpoint)
+    if kms_endpoint is not None:
+        client= boto3.client("kms")
     else:
         client = boto3.resource('kms', endpoint_url=kms_endpoint)
     return client
+
 
 
 dynamodb = dynamodbClient()
