@@ -1,4 +1,7 @@
 terraform {
+  backend "s3" {
+    key = "terraform-state/resources/state.tfstate"
+  }
 
   required_providers {
     aws = {
@@ -8,7 +11,4 @@ terraform {
   }
 }
 
-provider "aws" {
-  region = "us-east-1"
-
-}
+provider "aws" {}

@@ -5,6 +5,7 @@ module "kms" {
   # Aliases
   aliases = ["alias/${var.key_alias}"]
 
+  enable_key_rotation      = false
   description              = var.key_description
   customer_master_key_spec = "SYMMETRIC_DEFAULT"
   key_usage                = "ENCRYPT_DECRYPT"

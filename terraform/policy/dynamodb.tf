@@ -13,12 +13,10 @@ resource "aws_iam_policy" "dynamo_policy" {
 
 data "aws_iam_policy_document" "dynamo_policy" {
   statement {
-    principals {
-      type        = "AWS"
-      identifiers = [data.aws_iam_user.vauthenticator.arn]
-    }
 
     actions = [
+      "dynamodb:GetItem",
+      "dynamodb:Scan",
       "dynamodb:PutItem",
       "dynamodb:DeleteItem",
       "dynamodb:Query"

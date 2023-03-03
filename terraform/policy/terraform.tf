@@ -1,4 +1,7 @@
 terraform {
+  backend "s3" {
+    key    = "terraform-state/policy/state.tfstate"
+  }
 
   required_providers {
     aws = {

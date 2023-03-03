@@ -1,7 +1,5 @@
 data "aws_s3_bucket" "document_bucket" {
   bucket = var.document_s3_bucket_name
-
-  tags = merge(tomap({ "Name" = var.document_s3_bucket_name }), var.common_resource_tags)
 }
 
 resource "aws_s3_bucket_policy" "allow_access_from_another_account" {
