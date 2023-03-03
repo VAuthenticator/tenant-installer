@@ -1,0 +1,28 @@
+name: Release VAuthenticator Tenant Installer
+
+on:
+  push: { }
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'make a tag'
+        required: false
+
+jobs:
+  tag-artifact:
+    if: github.event.inputs.version != '' || github.event.inputs.version != ' '
+
+    runs-on: ubuntu-20.04
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: make an echo
+        run: |
+          echo version ${{github.event.inputs.version}}
+
+      - name: Create tag
+        uses: ncipollo/release-action@v1
+        with:
+          bodyFile: changelog/${{github.event.inputs.version}}.md
+          tag: ${{github.event.inputs.version}}
