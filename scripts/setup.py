@@ -8,6 +8,7 @@ import os
 isProduction = bool(os.getenv("IS_PRODUCITON"))
 print(isProduction)
 
+
 def dynamodbClient():
     dynamodb_endpoint = os.getenv('DYNAMO_DB_ENDPOINT')
     if dynamodb_endpoint is None:
@@ -30,7 +31,7 @@ dynamodb = dynamodbClient()
 kms_client = kmsClient()
 
 
-def store_account(user_name, account_table_name, account_role_table_name):
+def store_account(user_name, account_table_name):
     password = str(uuid.uuid4()) if isProduction else "admin"
     print(f'default user password: {password}')
 
@@ -49,11 +50,9 @@ def store_account(user_name, account_table_name, account_role_table_name):
         "enabled": True,
         "credentialsNonExpired": True,
         "accountNonLocked": True,
-        "accountNonExpired": True
+        "accountNonExpired": True,
+        "authorities": set(["ROLE_USER", "VAUTHENTICATOR_ADMIN"])
     })
-    table = dynamodb.Table(account_role_table_name)
-    table.put_item(Item={"role_name": "ROLE_USER", "user_name": user_name})
-    table.put_item(Item={"role_name": "VAUTHENTICATOR_ADMIN", "user_name": user_name})
 
 
 def store_roles(role_table_name):
@@ -73,8 +72,9 @@ def store_sso_client_applications(client_application_table_name):
 
     table = dynamodb.Table(client_application_table_name)
     scopes = set(
-        ["openid", "profile", "email", "admin:reset-password", "admin:key-reader", "admin:key-editor"])
-    if (isProduction):
+        ["openid", "profile", "email", "admin:reset-password", "admin:key-reader", "admin:key-editor",
+         "admin:mail-template-reader", "admin:mail-template-writer"])
+    if isProduction:
         scopes.add("mfa:always")
 
     table.put_item(Item={
@@ -108,16 +108,9 @@ def store_client_applications(client_application_table_name):
             "openid", "profile", "email",
             "admin:signup", "admin:welcome", "admin:mail-verify", "admin:reset-password",
             "admin:key-reader", "admin:key-editor",
+            "admin:mail-template-reader", "admin:mail-template-writer",
             "mfa:always"
         ]),
-        "authorized_grant_types": set(["CLIENT_CREDENTIALS"]),
-        "web_server_redirect_uri": "",
-        "authorities": set(["ROLE_USER"]),
-        "access_token_validity": 180,
-        "refresh_token_validity": 3600,
-        "auto_approve": True,
-        "post_logout_redirect_uris": "",
-        "logout_uris": "",
     })
 
 
@@ -147,11 +140,10 @@ if __name__ == '__main__':
     input_key_table_name = sys.argv[3]
     input_role_table_name = sys.argv[4]
     input_account_table_name = sys.argv[5]
-    input_account_role_table_name = sys.argv[6]
-    input_client_applications_table_name = sys.argv[7]
+    input_client_applications_table_name = sys.argv[6]
 
     store_key(input_key_table_name, input_master_key)
     store_roles(input_role_table_name)
-    store_account(user_name, input_account_table_name, input_account_role_table_name)
+    store_account(user_name, input_account_table_name)
     store_client_applications(input_client_applications_table_name)
     store_sso_client_applications(input_client_applications_table_name)
