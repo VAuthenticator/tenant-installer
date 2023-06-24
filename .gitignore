@@ -1,0 +1,14 @@
+.idea
+.idea/*
+*.iml
+
+/tenant-installer
+/tenant-installer/
+/tenant-installer/**
+/tenant-installer/**/**
+
+/docker
+/docker/*
+
+*.logs
+.env

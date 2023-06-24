@@ -114,20 +114,6 @@ def store_client_applications(client_application_table_name):
     })
 
 
-def store_key(key_table_name, master_key):
-    table = dynamodb.Table(key_table_name)
-    key_pair = kms_client.generate_data_key_pair(KeyId=master_key, KeyPairSpec='RSA_2048')
-    table.put_item(Item={
-        "master_key_id": key_pair["KeyId"],
-        "key_id": str(uuid.uuid4()),
-        "encrypted_private_key": base64.b64encode(key_pair["PrivateKeyCiphertextBlob"]).decode(),
-        "public_key": base64.b64encode(key_pair["PublicKey"]).decode(),
-        "key_purpose": "SIGNATURE",
-        "key_type": "ASYMMETRIC",
-        "enabled": True
-    })
-
-
 def pass_encoded(password):
     encode = str.encode(password)
     return bcrypt.hashpw(encode, bcrypt.gensalt(12)).decode()
@@ -135,14 +121,12 @@ def pass_encoded(password):
 
 if __name__ == '__main__':
     user_name = sys.argv[1]
-    input_master_key = sys.argv[2]
 
     input_key_table_name = sys.argv[3]
     input_role_table_name = sys.argv[4]
     input_account_table_name = sys.argv[5]
     input_client_applications_table_name = sys.argv[6]
 
-    store_key(input_key_table_name, input_master_key)
     store_roles(input_role_table_name)
     store_account(user_name, input_account_table_name)
     store_client_applications(input_client_applications_table_name)
