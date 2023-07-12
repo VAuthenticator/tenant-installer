@@ -1,6 +1,6 @@
 function copy_tf_variables() {
   echo $ACCOUNT_ID
-  sed 's/ACCOUNT_ID/'$ACCOUNT_ID'/g' variables.tfvars | sed 's/VAUTHENTICATOR_BUCKET/'$VAUTHENTICATOR_BUCKET'/g'  > variables.tfvars
+  sed 's/ACCOUNT_ID/'$ACCOUNT_ID'/g' variables.tfvars | sed 's/VAUTHENTICATOR_BUCKET/'$VAUTHENTICATOR_BUCKET'/g' > variables.tfvars
 }
 
 source .env

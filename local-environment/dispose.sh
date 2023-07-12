@@ -1,12 +1,15 @@
 function copy_tf_variables() {
   echo $ACCOUNT_ID
-  sed 's/ACCOUNT_ID/'$ACCOUNT_ID'/g' ../../../terraform-ovverrides/variables.tfvars | sed 's/VAUTHENTICATOR_BUCKET/'$VAUTHENTICATOR_BUCKET'/g'  > variables.tfvars
+  sed 's/ACCOUNT_ID/'$ACCOUNT_ID'/g' variables.tfvars | sed 's/VAUTHENTICATOR_BUCKET/'$VAUTHENTICATOR_BUCKET'/g' > variables.tfvars
 }
 
-rm -rf tenant-installer
 source .env
 
-cd tenant-installer/terraform/
+cd terraform
+
+ln -s variable.tf iam/variable.tf
+ln -s variable.tf policy/variable.tf
+ln -s variable.tf resources/variable.tf
 
 cd policy
 copy_tf_variables
