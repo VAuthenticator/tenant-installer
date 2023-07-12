@@ -9,6 +9,10 @@ TEMPLATES=("welcome.html" "mail-verify-challenge.html" "reset-password.html" "mf
 
 cd ../terraform
 
+ln -s variable.tf iam/variable.tf
+ln -s variable.tf policy/variable.tf
+ln -s variable.tf resources/variable.tf
+
 # IAM
 cd iam
 copy_tf_variables

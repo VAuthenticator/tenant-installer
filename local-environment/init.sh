@@ -5,4 +5,4 @@ ls -la
 pip3 install -r requirements.txt
 
 python3 key_setup.py $MASTER_KEY $TABLES_SUFFIX
-#python3 setup.py admin@email.com $MASTER_KEY
+python3 setup.py admin@email.com $MASTER_KEY
