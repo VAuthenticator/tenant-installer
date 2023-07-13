@@ -29,11 +29,11 @@ Here there are all the needed scripts to orchestrate all the process to configur
   ```
   After that the setup.sh is executed in the AWS console on KMS section you can see the Key ID of your key. 
   It is the master key to insert in the configuration
-  file configuration/Fvauthenticator.yml.
+  file configuration/vauthenticator.yml.
   ```
   
   - configure your app
-    - Property name is: `key.master-key: ${A_MASTER_KEY}`
+    - Property name is: `key.master-key: ${MASTER_KEY}`
     - create the IAM key and set up the required environment variables like below
       ```
       AWS_ACCESS_KEY_ID=xxxx
