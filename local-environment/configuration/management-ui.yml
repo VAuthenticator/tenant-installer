@@ -4,8 +4,9 @@ oidcEndSessionUrl: ${vauthenticator.host}/oidc/logout
 auth.oidcIss: ${vauthenticator.host}
 postLogoutRedirectUri: http://local.management.vauthenticator.com:8080/secure/admin/index
 
-assetServer:
-  baseUrl: http://local.management.vauthenticator.com:3001/asset
+document:
+  engine: file-system
+  fs-base-path: dist
 
 spring:
   security:
@@ -38,10 +39,6 @@ spring:
   redis:
     database: 1
     host: localhost
-
-  sleuth:
-    redis:
-      enabled: false
 
 server:
   port: 8080
