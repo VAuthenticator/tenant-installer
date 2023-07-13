@@ -1,5 +1,5 @@
 resource "aws_dynamodb_table" "client_application_table" {
-  name         = var.client_application_table_name
+  name         = "${var.client_application_table_name}${var.table_name_suffix}"
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "client_id"
 
@@ -13,7 +13,8 @@ resource "aws_dynamodb_table" "client_application_table" {
 }
 
 resource "aws_dynamodb_table" "account_table" {
-  name         = var.account_table_name
+  name         = "${var.account_table_name}${var.table_name_suffix}"
+
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "user_name"
 
@@ -26,7 +27,8 @@ resource "aws_dynamodb_table" "account_table" {
 }
 
 resource "aws_dynamodb_table" "role_table" {
-  name         = var.role_table_name
+  name         = "${var.role_table_name}${var.table_name_suffix}"
+
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "role_name"
 
@@ -39,7 +41,8 @@ resource "aws_dynamodb_table" "role_table" {
 }
 
 resource "aws_dynamodb_table" "ticket_table" {
-  name         = var.ticket_table_name
+  name         = "${var.ticket_table_name}${var.table_name_suffix}"
+
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "ticket"
 
@@ -56,7 +59,8 @@ resource "aws_dynamodb_table" "ticket_table" {
 }
 
 resource "aws_dynamodb_table" "mfa_account_methods_table" {
-  name         = var.mfa_account_methods_table_name
+  name         = "${var.mfa_account_methods_table_name}${var.table_name_suffix}"
+
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "user_name"
   range_key    = "mfa_method"
@@ -74,7 +78,8 @@ resource "aws_dynamodb_table" "mfa_account_methods_table" {
 }
 
 resource "aws_dynamodb_table" "mfa_keys_table" {
-  name         = var.mfa_keys_table_name
+  name         = "${var.mfa_keys_table_name}${var.table_name_suffix}"
+
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "key_id"
 
@@ -87,7 +92,8 @@ resource "aws_dynamodb_table" "mfa_keys_table" {
 }
 
 resource "aws_dynamodb_table" "signature_keys_table" {
-  name         = var.signature_keys_table_name
+  name         = "${var.signature_keys_table_name}${var.table_name_suffix}"
+
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "key_id"
 

@@ -9,13 +9,14 @@ path = "/local-stage/"
 table_name_suffix  = "_Local_Staging"
 
 # s3 variables
-document_s3_bucket_name = "VAUTHENTICATOR_BUCKET"
+vauthenticator_document_s3_bucket_name = "VAUTHENTICATOR_BUCKET"
+vauthenticator_management_ui_document_s3_bucket_name = "VAUTHENTICATOR_MANAGEMENT_UI_BUCKET"
 
 # kms variables
 key_name                      = "master_key"
 key_administrator_account_ids = ["arn:aws:iam::ACCOUNT_ID:user/local-stage/vauthenticator-local-dev"]
 key_user_account_ids = ["arn:aws:iam::ACCOUNT_ID:user/local-stage/vauthenticator-local-dev"]
 
-key_alias               = "vauthenticator-key"
-key_description         = "vauthenticator-key"
+key_alias               = "vauthenticator-local-dev-key"
+key_description         = "vauthenticator-local-dev-key"
 deletion_window_in_days = 7

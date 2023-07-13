@@ -50,7 +50,10 @@ variable "mfa_account_methods_table_name" {
 }
 
 # s3 variables
-variable "document_s3_bucket_name" {
+variable "vauthenticator_document_s3_bucket_name" {
+  type = string
+}
+variable "vauthenticator_management_ui_document_s3_bucket_name" {
   type = string
 }
 

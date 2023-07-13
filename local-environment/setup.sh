@@ -1,6 +1,13 @@
 function copy_tf_variables() {
   echo $ACCOUNT_ID
-  sed 's/ACCOUNT_ID/'$ACCOUNT_ID'/g' variables.tfvars | sed 's/VAUTHENTICATOR_BUCKET/'$VAUTHENTICATOR_BUCKET'/g' > variables.tfvars
+  sed 's/ACCOUNT_ID/'$ACCOUNT_ID'/g' ../../local-environment/variables.tfvars | sed 's/VAUTHENTICATOR_BUCKET/'$VAUTHENTICATOR_BUCKET'/g' | sed 's/VAUTHENTICATOR_MANAGEMENT_UI_BUCKET/'$VAUTHENTICATOR_MANAGEMENT_UI_BUCKET'/g' > variables.tfvars
+
+}
+
+function create_symbolic_linkFor() {
+  cd $1
+  ln -sf ../variable.tf variable.tf
+  cd ..
 }
 
 source .env
@@ -9,9 +16,9 @@ TEMPLATES=("welcome.html" "mail-verify-challenge.html" "reset-password.html" "mf
 
 cd ../terraform
 
-ln -s variable.tf iam/variable.tf
-ln -s variable.tf policy/variable.tf
-ln -s variable.tf resources/variable.tf
+create_symbolic_linkFor iam
+create_symbolic_linkFor policy
+create_symbolic_linkFor resources
 
 # IAM
 cd iam
@@ -36,7 +43,7 @@ terraform plan -var-file=variables.tfvars
 terraform apply -var-file=variables.tfvars -auto-approve
 
 
-cd ../document/template/mail
+cd ../../document/template/mail
 for TEMPLATE in ${TEMPLATES[@]}
 do
   aws s3 cp $TEMPLATE s3://$VAUTHENTICATOR_BUCKET/mail/templates/$TEMPLATE

@@ -1,15 +1,21 @@
 function copy_tf_variables() {
   echo $ACCOUNT_ID
-  sed 's/ACCOUNT_ID/'$ACCOUNT_ID'/g' variables.tfvars | sed 's/VAUTHENTICATOR_BUCKET/'$VAUTHENTICATOR_BUCKET'/g' > variables.tfvars
+  sed 's/ACCOUNT_ID/'$ACCOUNT_ID'/g' ../../local-environment/variables.tfvars | sed 's/VAUTHENTICATOR_BUCKET/'$VAUTHENTICATOR_BUCKET'/g' | sed 's/VAUTHENTICATOR_MANAGEMENT_UI_BUCKET/'$VAUTHENTICATOR_MANAGEMENT_UI_BUCKET'/g' > variables.tfvars
+}
+
+function create_symbolic_linkFor() {
+  cd $1
+  ln -sf ../variable.tf variable.tf
+  cd ..
 }
 
 source .env
 
-cd terraform
+cd ../terraform
 
-ln -s variable.tf iam/variable.tf
-ln -s variable.tf policy/variable.tf
-ln -s variable.tf resources/variable.tf
+create_symbolic_linkFor iam
+create_symbolic_linkFor policy
+create_symbolic_linkFor resources
 
 cd policy
 copy_tf_variables
