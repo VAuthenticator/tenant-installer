@@ -12,34 +12,48 @@ variable "path" {
 }
 
 # dynamodb variables
+variable "table_name_suffix" {
+  type = string
+  default = ""
+}
+
+
+# dynamodb variables
 variable "client_application_table_name" {
   type = string
+  default = "VAuthenticator_ClientApplication"
 }
 variable "account_table_name" {
   type = string
+  default = "VAuthenticator_Account"
 }
 variable "role_table_name" {
   type = string
-}
-variable "account_role_table_name" {
-  type = string
+  default = "VAuthenticator_Role"
 }
 
 variable "ticket_table_name" {
   type = string
+  default = "VAuthenticator_Ticket"
 }
 variable "mfa_keys_table_name" {
   type = string
+  default = "VAuthenticator_Mfa_Keys"
 }
 variable "signature_keys_table_name" {
   type = string
+  default = "VAuthenticator_Signature_Keys"
 }
 variable "mfa_account_methods_table_name" {
   type = string
+  default = "VAuthenticator_Mfa_Account_Methods"
 }
 
 # s3 variables
-variable "document_s3_bucket_name" {
+variable "vauthenticator_document_s3_bucket_name" {
+  type = string
+}
+variable "vauthenticator_management_ui_document_s3_bucket_name" {
   type = string
 }
 

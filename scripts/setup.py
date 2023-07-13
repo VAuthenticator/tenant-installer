@@ -1,7 +1,6 @@
 import boto3
 import uuid
 import sys
-import base64
 import bcrypt
 import os
 
@@ -31,11 +30,11 @@ dynamodb = dynamodbClient()
 kms_client = kmsClient()
 
 
-def store_account(user_name, account_table_name):
-    password = str(uuid.uuid4()) if isProduction else "admin"
+def store_account():
+    password = str(uuid.uuid4()) if isProduction else "secret"
     print(f'default user password: {password}')
 
-    table = dynamodb.Table(account_table_name)
+    table = dynamodb.Table(f"VAuthenticator_Account{table_suffix}")
     table.put_item(Item={
         "user_name": user_name,
         "password": pass_encoded(password),
@@ -55,22 +54,21 @@ def store_account(user_name, account_table_name):
     })
 
 
-def store_roles(role_table_name):
-    table = dynamodb.Table(role_table_name)
+def store_roles():
+    table = dynamodb.Table(f"VAuthenticator_Role{table_suffix}")
     table.put_item(Item={"role_name": "ROLE_USER", "description": "Generic user role"})
     table.put_item(Item={"role_name": "VAUTHENTICATOR_ADMIN", "description": "VAuthenticator admin role"})
 
 
-def store_sso_client_applications(client_application_table_name):
+def store_sso_client_applications():
     client_id = str(uuid.uuid4()) if isProduction else "vauthenticator-management-ui"
-    print(f'client id: {client_id}')
     print(f'client id: {client_id}')
 
     client_secret = str(uuid.uuid4()) if isProduction else "secret"
     print(f'client secret: {client_secret}')
     print(f'client_id={client_id}&client_secret={client_secret}')
 
-    table = dynamodb.Table(client_application_table_name)
+    table = dynamodb.Table(f"VAuthenticator_ClientApplication{table_suffix}")
     scopes = set(
         ["openid", "profile", "email", "admin:reset-password", "admin:key-reader", "admin:key-editor",
          "admin:mail-template-reader", "admin:mail-template-writer"])
@@ -92,7 +90,7 @@ def store_sso_client_applications(client_application_table_name):
     })
 
 
-def store_client_applications(client_application_table_name):
+def store_client_applications():
     client_id = str(uuid.uuid4()) if isProduction else "admin"
     print(f'client id: {client_id}')
 
@@ -100,7 +98,7 @@ def store_client_applications(client_application_table_name):
     print(f'client secret: {client_secret}')
     print(f'client_id={client_id}&client_secret={client_secret}')
 
-    table = dynamodb.Table(client_application_table_name)
+    table = dynamodb.Table(f"VAuthenticator_ClientApplication{table_suffix}")
     table.put_item(Item={
         "client_id": client_id,
         "client_secret": pass_encoded(client_secret),
@@ -111,20 +109,14 @@ def store_client_applications(client_application_table_name):
             "admin:mail-template-reader", "admin:mail-template-writer",
             "mfa:always"
         ]),
-    })
-
-
-def store_key(key_table_name, master_key):
-    table = dynamodb.Table(key_table_name)
-    key_pair = kms_client.generate_data_key_pair(KeyId=master_key, KeyPairSpec='RSA_2048')
-    table.put_item(Item={
-        "master_key_id": key_pair["KeyId"],
-        "key_id": str(uuid.uuid4()),
-        "encrypted_private_key": base64.b64encode(key_pair["PrivateKeyCiphertextBlob"]).decode(),
-        "public_key": base64.b64encode(key_pair["PublicKey"]).decode(),
-        "key_purpose": "SIGNATURE",
-        "key_type": "ASYMMETRIC",
-        "enabled": True
+        "authorized_grant_types": set(["CLIENT_CREDENTIALS"]),
+        "web_server_redirect_uri": "",
+        "authorities": set(["VAUTHENTICATOR_ADMIN"]),
+        "access_token_validity": 180,
+        "refresh_token_validity": 3600,
+        "auto_approve": True,
+        "post_logout_redirect_uris": "",
+        "logout_uris": "",
     })
 
 
@@ -135,15 +127,9 @@ def pass_encoded(password):
 
 if __name__ == '__main__':
     user_name = sys.argv[1]
-    input_master_key = sys.argv[2]
+    table_suffix = sys.argv[2]
 
-    input_key_table_name = sys.argv[3]
-    input_role_table_name = sys.argv[4]
-    input_account_table_name = sys.argv[5]
-    input_client_applications_table_name = sys.argv[6]
-
-    store_key(input_key_table_name, input_master_key)
-    store_roles(input_role_table_name)
-    store_account(user_name, input_account_table_name)
-    store_client_applications(input_client_applications_table_name)
-    store_sso_client_applications(input_client_applications_table_name)
+    store_roles()
+    store_account()
+    store_client_applications()
+    store_sso_client_applications()

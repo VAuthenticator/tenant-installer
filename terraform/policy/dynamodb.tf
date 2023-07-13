@@ -26,7 +26,6 @@ data "aws_iam_policy_document" "dynamo_policy" {
       data.aws_dynamodb_table.client_application_table.arn,
       data.aws_dynamodb_table.account_table.arn,
       data.aws_dynamodb_table.role_table.arn,
-      data.aws_dynamodb_table.account_role_table.arn,
       data.aws_dynamodb_table.ticket_table.arn,
       data.aws_dynamodb_table.mfa_account_methods_table.arn,
       data.aws_dynamodb_table.mfa_keys_table.arn,
@@ -36,26 +35,23 @@ data "aws_iam_policy_document" "dynamo_policy" {
 }
 
 data aws_dynamodb_table client_application_table {
-  name = var.client_application_table_name
+  name = "${var.client_application_table_name}${var.table_name_suffix}"
 }
 data aws_dynamodb_table account_table {
-  name = var.account_table_name
+  name = "${var.account_table_name}${var.table_name_suffix}"
 }
 data aws_dynamodb_table role_table {
-  name = var.role_table_name
-}
-data aws_dynamodb_table account_role_table {
-  name = var.account_role_table_name
+  name = "${var.role_table_name}${var.table_name_suffix}"
 }
 data aws_dynamodb_table ticket_table {
-  name = var.ticket_table_name
+  name = "${var.ticket_table_name}${var.table_name_suffix}"
 }
 data aws_dynamodb_table mfa_account_methods_table {
-  name = var.mfa_account_methods_table_name
+  name = "${var.mfa_account_methods_table_name}${var.table_name_suffix}"
 }
 data aws_dynamodb_table mfa_keys_table {
-  name = var.mfa_keys_table_name
+  name = "${var.mfa_keys_table_name}${var.table_name_suffix}"
 }
 data aws_dynamodb_table signature_keys_table {
-  name = var.signature_keys_table_name
+  name = "${var.signature_keys_table_name}${var.table_name_suffix}"
 }

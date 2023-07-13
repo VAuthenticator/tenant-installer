@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+  mail-server:
+    image: apache/james:demo-3.7.3
+    ports:
+      - "587:587"
+      - "465:465"
+      - "993:993"
