@@ -1,27 +1,26 @@
 # local-environment
 
-Make sure to have on the root project a folder called tenant-installer with teh content on the relative version of the [tenant-installer project](https://github.com/VAuthenticator/tenant-installer).
-The project is composed by a docker-compose yml designed to provide you all the basic infrastructure to start
-vauthenticator app in local.
+Here there are all the needed scripts to orchestrate all the process to configure yor AWS account to test locally VAuthenticator and VAuthenticator Management UI.
+
 
 # local host config
 
 - add on your local hosts file the following configurations
 
     ```
-    127.0.0.1   local.assets.vauthenticator.com
-    127.0.0.1   local.assets.management.vauthenticator.com
     127.0.0.1   local.api.vauthenticator.com
     127.0.0.1   local.management.vauthenticator.com
     ```
 - make sure that you have a clean installation 
   - docker-compose down  
   - docker-compose rm  
-  - 
+  - docker-compose up
 - create an .env file like this:
   ````
+  TABLES_SUFFIX=xxx
   ACCOUNT_ID=xxxx
   VAUTHENTICATOR_BUCKET=xxxx
+  VAUTHENTICATOR_MANAGEMENT_UI_BUCKET=xxxx
   TF_STATE_BUCKET=xxxx
   MASTER_KEY=will be available on the aws console or in the terraform resource apply console log 
   AWS_REGION=xxxx
@@ -35,7 +34,6 @@ vauthenticator app in local.
   
   - configure your app
     - Property name is: `key.master-key: ${A_MASTER_KEY}`
-    - Property name is: `: ${VAUTHENTICATOR_DOCUMENTS_BUCKET}`
     - create the IAM key and set up the required environment variables like below
       ```
       AWS_ACCESS_KEY_ID=xxxx
@@ -53,7 +51,7 @@ vauthenticator app in local.
   - default management ui client application 
     - link:  http://local.management.vauthenticator.com:8080/secure/admin/index
     - username: admin@email.com
-    - password: admin
+    - password: secret
 
 
 - to reset all the environment use the ```./dispose.sh``` script
