@@ -78,6 +78,7 @@ def store_sso_client_applications():
     table.put_item(Item={
         "client_id": client_id,
         "client_secret": pass_encoded(client_secret),
+        "with_pkce": False,
         "scopes": scopes,
         "authorized_grant_types": set(["AUTHORIZATION_CODE"]),
         "web_server_redirect_uri": "http://local.management.vauthenticator.com:8080/login/oauth2/code/client",
@@ -102,6 +103,7 @@ def store_client_applications():
     table.put_item(Item={
         "client_id": client_id,
         "client_secret": pass_encoded(client_secret),
+        "with_pkce": False,
         "scopes": set([
             "openid", "profile", "email",
             "admin:signup", "admin:welcome", "admin:mail-verify", "admin:reset-password",
