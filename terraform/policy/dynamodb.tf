@@ -29,7 +29,8 @@ data "aws_iam_policy_document" "dynamo_policy" {
       data.aws_dynamodb_table.ticket_table.arn,
       data.aws_dynamodb_table.mfa_account_methods_table.arn,
       data.aws_dynamodb_table.mfa_keys_table.arn,
-      data.aws_dynamodb_table.signature_keys_table.arn
+      data.aws_dynamodb_table.signature_keys_table.arn,
+      data.aws_dynamodb_table.password_history_table.arn,
     ]
   }
 }
@@ -54,4 +55,7 @@ data aws_dynamodb_table mfa_keys_table {
 }
 data aws_dynamodb_table signature_keys_table {
   name = "${var.signature_keys_table_name}${var.table_name_suffix}"
+}
+data aws_dynamodb_table password_history_table {
+  name = "${var.password_history_table_name}${var.table_name_suffix}"
 }
