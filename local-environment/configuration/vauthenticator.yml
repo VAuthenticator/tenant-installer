@@ -74,6 +74,7 @@ password:
   policy:
     minSize: 1
     minSpecialSymbol: 1
+    enablePasswordReusePrevention: true
 
 vauthenticator:
   host: http://local.api.vauthenticator.com:9090
@@ -96,6 +97,8 @@ vauthenticator:
       cache:
         ttl: 10s
         name: client-application
+    password-history:
+      table-name: VAuthenticator_Password_History_Local_Staging
     keys.signature.table-name: VAuthenticator_Signature_Keys_Local_Staging
     keys.mfa.table-name: VAuthenticator_Mfa_Keys_Local_Staging
     ticket.table-name: VAuthenticator_Ticket_Local_Staging
