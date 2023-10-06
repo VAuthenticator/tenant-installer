@@ -99,8 +99,15 @@ vauthenticator:
         name: client-application
     password-history:
       table-name: VAuthenticator_Password_History_Local_Staging
-    keys.signature.table-name: VAuthenticator_Signature_Keys_Local_Staging
-    keys.mfa.table-name: VAuthenticator_Mfa_Keys_Local_Staging
-    ticket.table-name: VAuthenticator_Ticket_Local_Staging
-    mfa_account_methods.table-name: VAuthenticator_Mfa_Account_Methods_Local_Staging
+      history-evaluation-limit: 1
+      max-history-allowed-size: 3
+    keys:
+      signature:
+        table-name: VAuthenticator_Signature_Keys_Local_Staging
+      mfa:
+        table-name: VAuthenticator_Mfa_Keys_Local_Staging
+    ticket:
+      table-name: VAuthenticator_Ticket_Local_Staging
+    mfa_account_methods:
+      table-name: VAuthenticator_Mfa_Account_Methods_Local_Staging
 iamUserAwsCredentialsProvider: true

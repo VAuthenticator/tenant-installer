@@ -70,7 +70,7 @@ def store_sso_client_applications():
 
     table = dynamodb.Table(f"VAuthenticator_ClientApplication{table_suffix}")
     scopes = set(
-        ["openid", "profile", "email", "admin:reset-password", "admin:key-reader", "admin:key-editor",
+        ["openid", "profile", "email", "admin:reset-password", "admin:change-password", "admin:key-reader", "admin:key-editor",
          "admin:mail-template-reader", "admin:mail-template-writer"])
     if isProduction:
         scopes.add("mfa:always")
@@ -106,7 +106,7 @@ def store_client_applications():
         "with_pkce": False,
         "scopes": set([
             "openid", "profile", "email",
-            "admin:signup", "admin:welcome", "admin:mail-verify", "admin:reset-password",
+            "admin:signup", "admin:welcome", "admin:mail-verify", "admin:reset-password", "admin:change-password",
             "admin:key-reader", "admin:key-editor",
             "admin:mail-template-reader", "admin:mail-template-writer",
             "mfa:always"
