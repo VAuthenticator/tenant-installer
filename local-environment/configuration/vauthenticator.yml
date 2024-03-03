@@ -27,13 +27,13 @@ document:
 spring:
   mail:
     host: localhost
-    port: 587
-    username: user01j@ames.local
-    password: 1234
+    port: 1025
+    username: ""
+    password: ""
     properties:
       smtp:
-        port: 587
-        auth: true
+        port: 1025
+        auth: false
 
   security:
     oauth2:
@@ -71,6 +71,11 @@ management:
     health:
       show-details: ALWAYS
 password:
+  generator-criteria:
+    upperCaseCharactersSize: 2
+    lowerCaseCharactersSize: 2
+    specialCharactersSize: 2
+    numberCharactersSize: 2
   policy:
     minSize: 1
     minSpecialSymbol: 1

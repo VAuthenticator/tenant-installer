@@ -3,6 +3,9 @@ import uuid
 import sys
 import base64
 import os
+from dotenv import load_dotenv
+
+load_dotenv(dotenv_path="../local-environment/.env")
 
 
 def dynamodbClient():
@@ -16,6 +19,7 @@ def dynamodbClient():
 
 def kmsClient():
     kms_endpoint = os.getenv('KMS_ENDPOINT')
+    print(f"kms_endpoint {kms_endpoint}")
     if kms_endpoint is None:
         client = boto3.client("kms")
     else:

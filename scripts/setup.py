@@ -4,6 +4,10 @@ import sys
 import bcrypt
 import os
 
+from dotenv import load_dotenv
+
+load_dotenv(dotenv_path="../local-environment/.env")
+
 isProduction = bool(os.getenv("IS_PRODUCITON"))
 print(isProduction)
 
@@ -41,7 +45,6 @@ def store_account():
         "phone": "",
         "birthDate": "",
         "locale": "en",
-        "firstName": "Admin",
         "firstName": "Admin",
         "lastName": "",
         "email": user_name,
