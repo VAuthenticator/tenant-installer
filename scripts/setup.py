@@ -6,9 +6,12 @@ import os
 
 from dotenv import load_dotenv
 
+def str2bool(v):
+    return v.lower() in ("True")
+
 load_dotenv(dotenv_path="../local-environment/.env")
 
-isProduction = bool(os.getenv("IS_PRODUCITON"))
+isProduction = str2bool(os.getenv("IS_PRODUCITON"))
 print(isProduction)
 
 
@@ -53,6 +56,7 @@ def store_account():
         "credentialsNonExpired": True,
         "accountNonLocked": True,
         "accountNonExpired": True,
+        "mandatory_action": "NO_ACTION",
         "authorities": set(["ROLE_USER", "VAUTHENTICATOR_ADMIN"])
     })
 
@@ -73,7 +77,8 @@ def store_sso_client_applications():
 
     table = dynamodb.Table(f"VAuthenticator_ClientApplication{table_suffix}")
     scopes = set(
-        ["openid", "profile", "email", "admin:reset-password", "admin:change-password", "admin:key-reader", "admin:key-editor",
+        ["openid", "profile", "email", "admin:reset-password", "admin:change-password", "admin:key-reader",
+         "admin:key-editor",
          "admin:mail-template-reader", "admin:mail-template-writer"])
     if isProduction:
         scopes.add("mfa:always")
@@ -83,7 +88,7 @@ def store_sso_client_applications():
         "client_secret": pass_encoded(client_secret),
         "with_pkce": False,
         "scopes": scopes,
-        "authorized_grant_types": set(["AUTHORIZATION_CODE"]),
+        "authorized_grant_types": set(["AUTHORIZATION_CODE", "REFRESH_TOKEN"]),
         "web_server_redirect_uri": "http://local.management.vauthenticator.com:8080/login/oauth2/code/client",
         "authorities": set(["ROLE_USER", "VAUTHENTICATOR_ADMIN"]),
         "access_token_validity": 180,
