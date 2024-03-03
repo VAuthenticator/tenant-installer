@@ -17,13 +17,20 @@ Here there are all the needed scripts to orchestrate all the process to configur
   - docker-compose up
 - create an .env file like this:
   ````
-  TABLES_SUFFIX=xxx
-  ACCOUNT_ID=xxxx
-  VAUTHENTICATOR_BUCKET=xxxx
-  VAUTHENTICATOR_MANAGEMENT_UI_BUCKET=xxxx
-  TF_STATE_BUCKET=xxxx
-  MASTER_KEY=will be available on the aws console or in the terraform resource apply console log 
+  IS_PRODUCITON=False
+  DYNAMO_DB_ENDPOINT=http://localhost:4566
+  KMS_ENDPOINT=http://localhost:4566
+  
+  ACCOUNT_ID=000000000000
+  AWS_ACCESS_KEY_ID=xxxx
+  AWS_SECRET_ACCESS_KEY=xxxx
   AWS_REGION=xxxx
+  
+  TABLES_SUFFIX=_Local_Staging
+  
+  VAUTHENTICATOR_BUCKET=vauthenticator-local-dev-document-bucket
+  VAUTHENTICATOR_MANAGEMENT_UI_BUCKET=vauthenticator-management-ui-local-dev-document-bucket
+  MASTER_KEY=will be available on the aws console or in the terraform resource apply console log 
   ````
 - run the setup.sh
   ```
@@ -36,9 +43,9 @@ Here there are all the needed scripts to orchestrate all the process to configur
     - Property name is: `key.master-key: ${MASTER_KEY}`
     - create the IAM key and set up the required environment variables like below
       ```
-      AWS_ACCESS_KEY_ID=xxxx
-      AWS_SECRET_ACCESS_KEY=xxxx
-      AWS_REGION=xxxx
+      AWS_ACCESS_KEY_ID=it is irrelevant
+      AWS_SECRET_ACCESS_KEY=it is irrelevant
+      AWS_REGION=could be whatever aws region you would like to configure.. in local stack all will be local
       ```
   
 - run the init.sh: After that the init.sh is executed you will have configured.
@@ -54,4 +61,5 @@ Here there are all the needed scripts to orchestrate all the process to configur
     - password: secret
 
 
-- to reset all the environment use the ```./dispose.sh``` script
+- to reset all the environment you can destroy your local compose environment
+- please remember that the setup script will override the terraform.tf file in order to override aws endpoint keep in mind it  
