@@ -116,3 +116,11 @@ vauthenticator:
     mfa_account_methods:
       table-name: VAuthenticator_Mfa_Account_Methods_Local_Staging
 iamUserAwsCredentialsProvider: true
+
+aws:
+  s3:
+    endpointOverride: "http://s3.localhost.localstack.cloud:4566"
+  kms:
+    endpointOverride: "http://localhost:4566"
+  dynamodb:
+    endpointOverride: "http://localhost:4566"
