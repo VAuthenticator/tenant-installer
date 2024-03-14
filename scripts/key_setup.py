@@ -35,7 +35,7 @@ def store_key(key_table_name, master_key):
     table = dynamodb.Table(key_table_name)
     key_pair = kms_client.generate_data_key_pair(KeyId=master_key, KeyPairSpec='RSA_2048')
     table.put_item(Item={
-        "master_key_id": key_pair["KeyId"],
+        "master_key_id": key_pair["KeyId"].split("/")[1],
         "key_id": str(uuid.uuid4()),
         "encrypted_private_key": base64.b64encode(key_pair["PrivateKeyCiphertextBlob"]).decode(),
         "public_key": base64.b64encode(key_pair["PublicKey"]).decode(),
