@@ -69,6 +69,7 @@ resource "aws_dynamodb_table" "mfa_account_methods_table" {
     name = "user_name"
     type = "S"
   }
+
   attribute {
     name = "mfa_method"
     type = "S"
@@ -88,6 +89,10 @@ resource "aws_dynamodb_table" "mfa_keys_table" {
     type = "S"
   }
 
+  ttl {
+    attribute_name = "key_expiration_date_timestamp"
+  }
+
   tags = merge(tomap({ "Name" = var.mfa_keys_table_name }), var.common_resource_tags)
 }
 
@@ -100,6 +105,10 @@ resource "aws_dynamodb_table" "signature_keys_table" {
   attribute {
     name = "key_id"
     type = "S"
+  }
+
+  ttl {
+    attribute_name = "key_expiration_date_timestamp"
   }
 
   tags = merge(tomap({ "Name" = var.signature_keys_table_name }), var.common_resource_tags)
@@ -118,7 +127,7 @@ resource "aws_dynamodb_table" "password_history_table" {
   }
   attribute {
     name = "created_at"
-    type = "S"
+    type = "N"
   }
 
   tags = merge(tomap({ "Name" = var.password_history_table_name }), var.common_resource_tags)
